@@ -1,0 +1,37 @@
+<div class="verify-container">
+  <div class="verify-card">
+    <div class="verify-header">
+      <h2>Подтверждение Email</h2>
+      <p>Введите код подтверждения, отправленный на:</p>
+      <p class="email-display">{{ email }}</p>
+    </div>
+
+    <div class="verify-form">
+      <div class="form-group">
+        <label>Код подтверждения</label>
+        <input 
+          type="text" 
+          [(ngModel)]="verificationCode" 
+          placeholder="Введите 6-значный код"
+          class="verify-input"
+          maxlength="10"
+        >
+      </div>
+
+      <button (click)="verifyByCode()" class="btn btn-primary">
+        <span>✓ Подтвердить</span>
+      </button>
+
+      <div class="divider">или</div>
+
+      <button (click)="resend()" class="btn btn-secondary">
+        <span>↻ Отправить код еще раз</span>
+      </button>
+    </div>
+
+    <div class="verify-footer">
+      <p>Не получили код? Проверьте папку "Спам" или попросите отправить код еще раз.</p>
+    </div>
+  </div>
+</div>
+

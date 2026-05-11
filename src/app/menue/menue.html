@@ -1,0 +1,173 @@
+<main class="menu-page">
+  <section class="menu-hero">
+    <div class="hero-copy">
+      <span class="eyebrow">Fresh flavors, crafted daily</span>
+      <h1>Explore our delicious menu</h1>
+      <p>Browse the latest dishes, filter by taste and price, and add your favorites to the cart.</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <span class="stat-value">{{ data.products.length }}</span>
+        <span class="stat-label">Items available</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ category.category.length }}</span>
+        <span class="stat-label">Categories</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value">{{ page }}</span>
+        <span class="stat-label">Current page</span>
+      </div>
+    </div>
+  </section>
+   <button class="mobile-filter-trigger" (click)="toggleFilters()">
+   <i class="fa-solid fa-filter"></i>
+   
+  <!-- <span class="burger-icon-simple"></span> -->
+</button>
+
+@if (isFiltersOpen()) {
+  <div class="sidebar-overlay" (click)="closeFilters()"></div>
+}
+  <section class="menu-content">
+   <aside class="menu-sidebar" [class.active]="isFiltersOpen()" (click)="closeFilters()">
+      <div class="filter-panel" (click)="$event.stopPropagation()">
+        <div class="filter-heading">
+          <h2>Filters</h2>
+          <button class="reset-button" (click)="resetFilter()">Clear</button>
+          <button class="filter-toggle" (click)="toggleFilters()" [class.active]="isFiltersOpen()" aria-label="Toggle filters">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+
+        <label class="search-field">
+          <input
+            [(ngModel)]="search"
+            (input)="onSearchChange()"
+            type="search"
+            placeholder="Search dishes"
+          />
+          <span class="search-icon">&#x1F50D;</span>
+        </label>
+
+        <div class="filter-block">
+          <h3>Categories</h3>
+          <div class="filter-group">
+            @for (item of category.category; track item.id) {
+              <button
+                type="button"
+                class="category-pill"
+                [class.active]="categoryId === item.id"
+                (click)="onSelectCategory(item.id)"
+              >
+                {{ item.name }}
+              </button>
+            } @empty {
+              <p>Loading categories...</p>
+            }
+          </div>
+        </div>
+
+        <div class="filter-blockvegeterian">
+          <h3>Diet</h3>
+          <label class="switch-label">
+            Vegetarian
+            <input
+              [(ngModel)]="vegeterian"
+              (change)="filter()"
+              type="checkbox"
+            />
+            <span class="toggle"></span>
+          </label>
+        </div>
+
+        <div class="filter-block">
+          <h3>Spice &amp; rating</h3>
+          <label>
+            <span>Rating <strong>{{ rate }}</strong></span>
+            <input
+              min="0"
+              max="5"
+              step="1"
+              [(ngModel)]="rate"
+              (input)="filter()"
+              type="range"
+            />
+          </label>
+          <label>
+            <span>Spiciness <strong>{{ spiciness }}</strong></span>
+            <input
+              min="0"
+              max="5"
+              step="1"
+              [(ngModel)]="spiciness"
+              (input)="filter()"
+              type="range"
+            />
+          </label>
+        </div>
+
+        <div class="filter-block">
+          <h3>Price range</h3>
+          <label>
+            <span>Min: ${{ minPrice }}</span>
+            <input
+              min="0"
+              max="100"
+              [(ngModel)]="minPrice"
+              (input)="filter()"
+              type="range"
+            />
+          </label>
+          <label>
+            <span>Max: ${{ maxPrice }}</span>
+            <input
+              min="0"
+              max="100"
+              [(ngModel)]="maxPrice"
+              (input)="filter()"
+              type="range"
+            />
+          </label>
+        </div>
+      </div>
+    </aside>
+
+    <section class="menu-grid">
+      <div class="product-grid">
+        @for (product of data.products; track $index) {
+          <article class="product-card">
+            <img
+              routerLink="/details"
+              [queryParams]="{ id: product.id }"
+              [src]="product.image"
+              [alt]="product.name"
+              class="product-image"
+            />
+            <div class="product-body">
+              <div class="product-title-row">
+                <h3>{{ product.name }}</h3>
+                <span class="price">${{ product.price }}</span>
+              </div>
+              <p class="product-description">{{ product.description }}</p>
+              <div class="product-meta">
+                <span><i class="fa-solid fa-star"></i> {{ product.rate }}</span>
+                <span>{{ product.vegeterian ? 'Veg' : 'Non-veg' }}</span>
+              </div>
+              <button class="add-cart" (click)="addProductToCart(product.id, quantity)">Add to cart</button>
+            </div>
+          </article>
+        }
+      </div>
+
+      <div class="pagination">
+        <button class="page-button" (click)="prevPage()" [disabled]="page === 1">Prev</button>
+        <span>Page {{ page }}</span>
+        <button class="page-button" (click)="nextPage()" [disabled]="!hasMore">Next</button>
+      </div>
+    </section>
+  </section>
+
+  

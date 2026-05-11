@@ -1,0 +1,57 @@
+@if (data) {
+  <main class="product-details">
+    <section class="product-hero">
+      <div class="hero-image">
+        <img [src]="data.image" [alt]="data.name" />
+      </div>
+      <div class="hero-content">
+        <div class="product-info">
+          <h1>{{ data.name }}</h1>
+          <div class="product-meta">
+            <span class="rating"><i class="fa-solid fa-star"></i> {{ data.rate }}</span>
+            <span class="diet">{{ data.vegetarian ? 'Vegetarian' : 'Non-vegetarian' }}</span>
+          </div>
+          <p class="description">{{ data.description }}</p>
+          <div class="price-section">
+            <span class="price">${{ data.price }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="product-details-section">
+      <div class="details-grid">
+        <div class="details-card">
+          <h2>Preparation Method</h2>
+          <p>{{ data.method }}</p>
+        </div>
+        <div class="details-card">
+          <h2>Ingredients</h2>
+          <ul>
+            @for (ingredient of data.ingredients; track $index) {
+              <li>{{ ingredient }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="add-to-cart-section">
+      <div class="cart-controls">
+        <div class="quantity-controls">
+          <button class="quant-btn" (click)="decrement()">−</button>
+          <span class="quantity-display">{{ quantity }}</span>
+          <button class="quant-btn" (click)="increment()">+</button>
+        </div>
+        <button class="add-to-cart-btn" (click)="addProductToCart(data.id, quantity)">
+          Add to Cart
+        </button>
+      </div>
+    </section>
+  </main>
+} @else {
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading product details...</p>
+  </div>
+}

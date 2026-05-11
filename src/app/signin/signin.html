@@ -1,0 +1,37 @@
+
+
+<div class="signin-container">
+  <div class="signin-card">
+    <h2>Sign Up</h2>
+    <form [formGroup]="signInForm" (ngSubmit)="register()">
+      <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" formControlName="firstName" placeholder="Enter your first name" />
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" formControlName="lastName" placeholder="Enter your last name" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" placeholder="Enter your email" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" formControlName="password" placeholder="Enter your password" />
+        @if (signInForm.get('password')?.errors?.['pattern'] && signInForm.get('password')?.touched) {
+          <small class="error">The password must contain a capital letter and a special character!</small>
+        }
+      </div>
+      <button [disabled]="!signInForm.valid" class="signin-btn">Sign Up</button>
+      @if (showResendButton) {
+        <div class="confirm">
+          <p>Confirmation problems?</p>
+        </div>
+      }
+    </form>
+    <a routerLink="/login" class="login-link">Already have an account? Sign In</a>
+  </div>
+</div>
+
+

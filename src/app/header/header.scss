@@ -1,0 +1,271 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.logo a {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  text-decoration: none;
+  font-family: 'Didot', serif;
+}
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+
+  li a {
+    color: #4b5563;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #1f2937;
+    }
+  }
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+
+  .cart-icon {
+    color: #4b5563;
+    font-size: 1.25rem;
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #E53935;
+    }
+  }
+
+  a {
+    color: #4b5563;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #1f2937;
+    }
+  }
+
+  .login-link {
+    cursor: pointer;
+  }
+}
+
+// Hamburger Menu Button
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+
+  span {
+    width: 30px;
+    height: 3px;
+    background: #4b5563;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  &.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+
+  &.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  &.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+}
+
+// Mobile Menu Styles
+@media (max-width: 768px) {
+  .header-content {
+    padding: 1rem;
+  }
+
+  .nav {
+    position: fixed;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+    &.mobile-menu-open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    ul {
+      flex-direction: column;
+      gap: 0;
+      padding: 1rem 0;
+
+      li {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        a {
+          display: block;
+          padding: 1rem 2rem;
+          color: #4b5563;
+          text-decoration: none;
+          font-weight: 500;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+            color: #1f2937;
+          }
+        }
+      }
+    }
+  }
+
+  .user-actions {
+    gap: 1rem;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .logo a {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .user-actions {
+    gap: 0.75rem;
+  }
+}
+
+.auth-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.logout-btn {
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: white;
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(239, 68, 68, 0.6);
+  }
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #E53935;
+  }
+
+  i {
+    color: inherit;
+  }
+
+  span {
+    color: inherit;
+  }
+}
+
+.logout-btn button:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+.cart-icon {
+  position: relative;
+  display: inline-block;
+
+  .cart-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    background-color: #ff4d4f; // Красный
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 5px;
+    min-width: 18px;
+    text-align: center;
+    border: 2px solid white; // Чтобы отделялся от иконки
+  
+
+    // Чтобы клик по цифре не мешал переходу в корзину
+    pointer-events: none; 
+    
+    // Анимация появления
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}

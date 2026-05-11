@@ -1,0 +1,42 @@
+<header class="header">
+  <div class="header-content">
+    <div class="logo">
+      <a routerLink="/home">Foodie</a>
+    </div>
+
+    <nav class="nav" [class.mobile-menu-open]="isMenuOpen()">
+      <ul>
+        <li><a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">Home</a></li>
+        <li><a routerLink="/menue" routerLinkActive="active" (click)="closeMenu()">Menu</a></li>
+      </ul>
+    </nav>
+
+    <div class="user-actions">
+      <a routerLink="/cart" class="cart-icon" aria-label="Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+       @if (cart()?.totalItems > 0) {
+  <span class="cart-badge">{{ cart().totalItems }}</span>
+}
+      </a>
+
+      @if (userData()) {
+        <div class="auth-group">
+          <a routerLink="/profile" class="profile-link">
+            <i class="fa-regular fa-user"></i>
+            <span> Hello, {{ userData()!.firstName }}</span>
+          </a>
+          <button (click)="logoutFunc()" class="logout-btn">Log Out</button>
+        </div>
+      } @else {
+        <a routerLink="/login" class="login-link">Sign In</a>
+        <a routerLink="/signin" class="signup-link">Sign Up</a>
+      }
+    </div>
+
+    <button class="hamburger" (click)="toggleMenu()" [class.active]="isMenuOpen()" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>

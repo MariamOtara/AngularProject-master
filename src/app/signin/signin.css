@@ -1,0 +1,104 @@
+.signin-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  padding-top: 4rem;
+}
+
+.signin-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+}
+.signin-card h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #1f2937;
+  font-size: 1.5rem;
+}
+.signin-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.signin-card .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.signin-card .form-group label {
+  font-weight: 500;
+  color: #374151;
+}
+.signin-card .form-group input {
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.signin-card .form-group input:focus {
+  border-color: #f5576c;
+  box-shadow: 0 0 0 3px rgba(245, 87, 108, 0.1);
+}
+.signin-card .form-group input::-moz-placeholder {
+  color: #9ca3af;
+}
+.signin-card .form-group input::placeholder {
+  color: #9ca3af;
+}
+.signin-card .form-group .error {
+  color: #ef4444;
+  font-size: 0.75rem;
+}
+.signin-card .signin-btn {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #f5576c 0%, #c026d3 100%);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.signin-card .signin-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 87, 108, 0.4);
+}
+.signin-card .signin-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.signin-card .confirm {
+  text-align: center;
+  margin-top: 1rem;
+  color: #6b7280;
+  font-size: 0.875rem;
+}
+.signin-card .login-link {
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+.signin-card .login-link:hover {
+  color: #374151;
+}
+
+@media (max-width: 480px) {
+  .signin-container {
+    padding: 1rem;
+  }
+  .signin-card {
+    padding: 2rem;
+  }
+}/*# sourceMappingURL=signin.css.map */

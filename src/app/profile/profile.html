@@ -1,0 +1,385 @@
+﻿<div class="profile-container">
+  <div class="tabs-nav">
+    <button [class.active]="activeTab === 'Personal information'" (click)="setTab('Personal information')">
+      Personal Info
+    </button>
+    <button [class.active]="activeTab === 'Change Password'" (click)="setTab('Change Password')">
+      Change Password
+    </button>
+    <button [class.active]="activeTab === 'Account Settings'" (click)="setTab('Account Settings')">
+      Account Settings
+    </button>
+    <button [class.active]="activeTab === 'Categories'" (click)="setTab('Categories')">
+      Categories
+    </button>
+    <button [class.active]="activeTab === 'Products'" (click)="setTab('Products')">
+      Products
+    </button>
+  </div>
+
+  <div class="tab-content">
+    
+    @if (activeTab === 'Personal information') {
+      @if (isLoading) {
+        <div class="loading-card">
+          <div class="spinner"></div>
+          <p>Loading profile...</p>
+        </div>
+      } @else if (errorMessage) {
+        <div class="loading-card">
+          <p class="error">{{ errorMessage }}</p>
+        </div>
+      } @else if (data) {
+        <div class="profile-card">
+          <div class="profile-header">
+            <h2>Welcome, {{ data.firstName }} {{ data.lastName }}</h2>
+            <p>Edit your personal details</p>
+          </div>
+
+          <div class="avatar-container">
+            <img [src]="data.picture" alt="Profile Picture" class="profile-picture" />
+          </div>
+
+          <form [formGroup]="profileForm" (ngSubmit)="saveChanges()" class="profile-form">
+            <div class="info-item">
+              <label>Profile Picture URL</label>
+              <input type="text" formControlName="picture" placeholder="Вставьте ссылку на фото">
+            </div>
+
+            <div class="row">
+              <div class="info-item">
+                <label>First Name</label>
+                <input formControlName="firstName" type="text" />
+              </div>
+              <div class="info-item">
+                <label>Last Name</label>
+                <input formControlName="lastName" type="text" />
+              </div>
+            </div>
+
+            <div class="info-item">
+              <label>Email</label>
+              <input formControlName="email" type="email" readonly />
+            </div>
+
+            <div class="info-item">
+              <label>Phone Number</label>
+              <input
+                formControlName="phoneNumber"
+                type="tel"
+                placeholder="+995 (599) 000-00-00"
+              />
+            </div>
+
+            <div class="info-item">
+              <label>Address</label>
+              <textarea
+                formControlName="address"
+                placeholder="Enter your full address"
+                rows="3">
+              </textarea>
+            </div>
+
+            <div class="info-item">
+              <label>Age</label>
+              <input
+                formControlName="age"
+                type="number"
+                placeholder="Enter your age"
+              />
+            </div>
+   
+            <div class="button-group">
+              <button type="submit" [disabled]="profileForm.invalid" class="save-btn">Save Changes</button>
+              <button type="button" (click)="logout()" class="logout-btn">Logout</button>
+            </div>
+          </form>
+        </div>
+      }
+    }
+
+    @if (activeTab === 'Change Password') {
+      <div class="profile-card">
+        <h3>Change Password</h3>
+        <form [formGroup]="passwordForm" (ngSubmit)="changePassword()" class="password-form">
+          <div class="info-item">
+            <label>Current Password</label>
+            <input formControlName="oldPassword" type="password" />
+          </div>
+          <div class="info-item">
+            <label>New Password</label>
+            <input formControlName="newPassword" type="password" />
+          </div>
+          <div class="info-item">
+            <label>Confirm New Password</label>
+            <input formControlName="confirmPassword" type="password" />
+          </div>
+          <button type="submit" [disabled]="passwordForm.invalid" class="change-password-btn">
+            Update Password
+          </button>
+        </form>
+      </div>
+    }
+
+    @if (activeTab === 'Account Settings') {
+      <div class="profile-card settings-card">
+        <h3>Danger Zone</h3>
+        <p>Deleting your account will result in permanent loss of all data.</p>
+        <button type="button" (click)="deleteAccount()" class="delete-btn">
+          Delete Account
+        </button>
+      </div>
+    }
+
+    @if (activeTab === 'Categories') {
+      <div class="profile-card settings-card">
+        <h3>Categories Management</h3>
+        <p>Manage your food categories here.</p>
+        <button type="button" (click)="addCategory()" class="add-btn">
+          Add New Category
+        </button>
+        
+        @for (item of category.category; track item.id) {
+          <div class="category-item">
+            <span>{{item.id}}. {{ item.name }}</span>
+            <button type="button" (click)="editCategory(item)" class="edit-btn">Edit</button>
+            <button type="button" (click)="deleteCategory(item.id)" class="delete-btn">Delete</button>
+          </div>
+        } @empty {
+          <p>Loading categories...</p>
+        }
+      </div>
+    }
+
+    @if (activeTab === 'Products') {
+      <div class="profile-card settings-card">
+        <h3>Products Management</h3>
+        <p>Manage your products here.</p>
+        <button type="button" (click)="addProduct()" class="add-btn">
+          Add New Product
+        </button>
+         @for (product of products; track product.id) {          
+          <div class="product-item">    
+            <span>{{ $index + 1 }}.</span>  
+            <img [src]="product.image" alt="{{ product.name }}" class="product-image" />      
+            <span>{{ product.name }}</span>
+            <span class="price">${{ product.price }}</span>
+            
+            <button type="button" (click)="editProduct(product.id)" class="edit-btn">Edit</button>
+            <button type="button" (click)="deleteProduct(product.id)" class="delete-btn">Delete</button>
+          </div>       
+        } @empty {
+          <p>Loading products...</p>
+        }
+            <div class="pagination">
+        <button class="page-button" (click)="prevPage()" [disabled]="page === 1">Prev</button>
+        <span>Page {{ page }}</span>
+        <button class="page-button" (click)="nextPage()" [disabled]="!hasMore">Next</button>
+      </div>
+        <!-- Products management content goes here -->
+      </div>
+     
+    }
+
+  </div>
+
+  @if (isAddCategoryModalOpen) {
+  <div class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+       <h2>Add Category</h2>
+        <button class="close-btn" (click)="isAddCategoryModalOpen = false">&times;</button>
+      </div>      
+      <p class="subtitle">Enter a name for the new category.</p>
+      <div class="form-group">
+        <label for="category-name">Name</label>
+        <input type="text" id="category-name" placeholder="e.g. Burgers" [(ngModel)]="newCategoryName">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="isAddCategoryModalOpen = false">Cancel</button>
+        <button class="btn-create" (click)="confirmAddCategory()">Create</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isEditCategoryModalOpen) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Edit Category</h2>
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+      </div>      
+      
+      <p class="subtitle">Update the category name.</p>
+      
+      <div class="form-group">
+        <label for="edit-category-name">Name</label>
+        <input type="text" 
+               id="edit-category-name" 
+               placeholder="e.g. Burgers" 
+               [(ngModel)]="editCategoryName">
+        </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+        <button class="btn-create" (click)="confirmEditCategory()">Save</button>
+      </div>
+    </div>
+  </div>
+}
+
+  @if (isAddProductModalOpen) {
+<div class="modal-overlay">
+  <div class="modal-card product-modal">
+    <h2>Add New Product</h2>
+     <button class="close-btn" (click)="isAddProductModalOpen = false">&times;</button>
+     <p class="subtitle">Fill in the details for the new product.</p>    
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" [(ngModel)]="newProduct.name">
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea [(ngModel)]="newProduct.description"></textarea>
+    </div>
+
+    <div class="row">
+      <div class="form-group">
+        <label>Price</label>
+        <input type="number" [(ngModel)]="newProduct.price" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>Spiciness (0-3)</label>
+        <input type="number" [(ngModel)]="newProduct.spiciness" min="0" max="3">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <select [(ngModel)]="newProduct.categoryId">
+        @for (cat of category.category; track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Image URL</label>
+      <input type="text" [(ngModel)]="newProduct.image">
+    </div>
+
+    <div class="form-group">
+      <label>Ingredients</label>
+      <div class="ingredient-input">
+        <input type="text" [(ngModel)]="newIngredient" placeholder="Add ingredient">
+        <button class="button-small" type="button" (click)="addIngredient()">+</button>
+      </div>
+      <div class="tags">
+        @for (ing of newProduct.ingredients; track $index) {
+          <span class="tag">{{ ing }} <i (click)="removeIngredient($index)">&times;</i></span>
+        }
+      </div>
+    </div>
+
+    <div class="form-group checkbox">
+      <input type="checkbox" id="veg" [(ngModel)]="newProduct.vegetarian">
+      <label for="veg">Vegetarian</label>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="isAddProductModalOpen = false">Cancel</button>
+      <button class="btn-create" (click)="confirmAddProduct()">Create Product</button>
+    </div>
+  </div>
+</div>
+  }
+
+@if (isEditProductModalOpen) {
+  <div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-card product-modal" (click)="$event.stopPropagation()">
+      
+      <div class="modal-header">
+        <h2>Edit Product</h2>
+        <button class="close-btn" (click)="isEditProductModalOpen = false">&times;</button>
+      </div>
+      
+      <p class="subtitle">Update the details for <strong>{{ newProduct.name }}</strong></p>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" [(ngModel)]="newProduct.name" placeholder="Product Name">
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [(ngModel)]="newProduct.description" rows="3" placeholder="Describe the dish..."></textarea>
+        </div>
+
+        <div class="row">
+          <div class="form-group">
+            <label>Price ($)</label>
+            <input type="number" [(ngModel)]="newProduct.price" min="0" step="0.1">
+          </div>
+          <div class="form-group">
+            <label>Spiciness (0-3)</label>
+            <input type="number" [(ngModel)]="newProduct.spiciness" min="0" max="3">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select [(ngModel)]="newProduct.categoryId">
+            @for (cat of category.category; track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="text" [(ngModel)]="newProduct.image" placeholder="https://image-link.com">
+        </div>
+
+        <div class="form-group">
+          <label>Ingredients</label>
+          <div class="ingredient-input" style="display: flex; gap: 8px;">
+            <input 
+              type="text" 
+              [(ngModel)]="newIngredient" 
+              placeholder="Add ingredient..." 
+              (keyup.enter)="addIngredient()">
+            <button type="button" class="add-btn" style="margin: 0; padding: 0 15px;" (click)="addIngredient()">+</button>
+          </div>
+          
+          <div class="tags" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;">
+            @for (ing of newProduct.ingredients; track $index) {
+              <span class="tag" style="background: var(--primary-light); color: var(--primary-dark); padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+                {{ ing }} 
+                <b style="cursor: pointer; color: var(--danger-color); font-size: 1.2rem; line-height: 1;" (click)="removeIngredient($index)">&times;</b>
+              </span>
+            }
+          </div>
+        </div>
+
+        <div class="form-group checkbox">
+          <div class="custom-veg-toggle">
+          <input type="checkbox" id="edit-veg" [(ngModel)]="newProduct.vegetarian">
+          <label for="edit-veg" class="toggle-label">Vegetarian</label>
+        </div>
+      </div>
+      </div>
+
+      <div class="modal-footer" style="margin-top: 20px;">
+        <button class="btn-cancel" (click)="isEditProductModalOpen = false">Cancel</button>
+        <button class="btn-create" (click)="confirmEditProduct()">Save Changes</button>
+      </div>
+
+    </div>
+  </div>
+}
+
+

@@ -1,0 +1,155 @@
+<main class="home-page">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Welcome to Foodie</h1>
+        <p>Discover the finest flavors and freshest ingredients. Order your favorite dishes delivered to your door.</p>
+        <a routerLink="/menue" class="cta-button">Explore Menu</a>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-decoration"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Why Choose Foodie?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-fire"></i>
+        </div>
+        <h3>Fresh & Hot</h3>
+        <p>Prepared fresh daily with the finest ingredients, delivered piping hot to your door.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h3>Fast Delivery</h3>
+        <p>Quick and reliable delivery service. Get your meals within 30-45 minutes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-leaf"></i>
+        </div>
+        <h3>Healthy Options</h3>
+        <p>Wide variety of vegetarian and vegan options for health-conscious customers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-star"></i>
+        </div>
+        <h3>Top Rated</h3>
+        <p>Highly rated by customers. Average rating 4.8/5 from thousands of reviews.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="categories">
+    <h2>Explore Categories</h2>
+    <div class="categories-grid">
+      @for (category of categories; track category.id) {
+        <div class="category-item">
+          <div class="category-icon">
+            <i class="fa-solid fa-utensils"></i>
+          </div>
+          <h3>{{ category.name }}</h3>
+          <p>View all {{ category.name }} dishes</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="featured">
+    <div class="featured-header">
+      <div>
+        <h2>Featured Dishes</h2>
+        <p>Try our most popular and highly-rated dishes</p>
+      </div>
+      <a routerLink="/menue" class="view-all">View All Dishes →</a>
+    </div>
+
+    @if (loading) {
+      <div class="loading">
+        <p>Loading featured dishes...</p>
+      </div>
+    } @else if (featuredProducts.length > 0) {
+      <div class="featured-grid">
+        @for (product of featuredProducts; track $index) {
+          <article class="featured-card">
+            <div class="card-image-container">
+              <img
+                [src]="product.image"
+                [alt]="product.name"
+                class="product-image"
+                routerLink="/details"
+                [queryParams]="{ id: product.id }"
+              />
+              <div class="card-overlay">
+                <button class="view-btn" routerLink="/details" [queryParams]="{ id: product.id }">
+                  View Details
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="card-header">
+                <h3>{{ product.name }}</h3>
+                <span class="price">${{ product.price }}</span>
+              </div>
+              <p class="description">{{ product.description }}</p>
+              <div class="card-meta">
+                <span class="rating">
+                  <i class="fa-solid fa-star"></i>
+                  {{ product.rate }}
+                </span>
+                <span class="diet">
+                  {{ product.vegeterian ? 'Vegetarian' : 'Non-Vegetarian' }}
+                </span>
+              </div>
+              <button class="add-cart-btn" (click)="addProductToCart(product.id, quantity)">
+                <i class="fa-solid fa-cart-plus"></i>
+                Add to Cart
+              </button>
+            </div>
+          </article>
+        }
+      </div>
+    } @else {
+      <div class="no-products">
+        <p>No featured products available at the moment</p>
+      </div>
+    }
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="stat">
+      <h3>1000+</h3>
+      <p>Happy Customers</p>
+    </div>
+    <div class="stat">
+      <h3>50+</h3>
+      <p>Dishes Available</p>
+    </div>
+    <div class="stat">
+      <h3>30 MIN</h3>
+      <p>Average Delivery</p>
+    </div>
+    <div class="stat">
+      <h3>4.8★</h3>
+      <p>Average Rating</p>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Ready to taste something delicious?</h2>
+    <p>Order now and get 10% off your first order!</p>
+    <a routerLink="/menue" class="cta-button large">Start Ordering</a>
+  </section>
+</main>
