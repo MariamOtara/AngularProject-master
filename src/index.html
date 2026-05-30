@@ -10,5 +10,28 @@
 </head>
 <body>
   <app-root></app-root>
+  <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+<script type="module">
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+	createChat({
+		webhookUrl: 'https://mariamo81111.app.n8n.cloud/webhook/44c2bab3-7f96-411e-bc7c-65ee8d432c0a/chat',
+    initialMessages: [
+		'გამარჯობა! ¡Hola! Привет! Hello!',
+	   'მე მქვია ლუკა, რითი დაგეხმაროთ. Me llamo Luka. Меня зовут Лука. My name is Luka.  How can I assist you today?'
+	],
+  i18n: {
+		en: {
+			title: 'გამარჯობა, ძვირფასო მომხმარებელო! Hello, dear customer!' ,
+			subtitle: "Start a chat. We're here to help you 24/7.",
+			footer: '',
+			getStarted: 'New Conversation',
+			inputPlaceholder: 'Type your question..',
+		},
+	},
+	});
+</script>
 </body>
+
+
 </html>

@@ -106,4 +106,11 @@ getDatafromApiMe() {
   });
 }
 
+registern8n(userData: any){
+  return this.http.post('https://mariamo81111.app.n8n.cloud/webhook-test/register', userData);
+}
+
+gettokenn8n(token:any){
+  return this.http.post('https://mariamo81111.app.n8n.cloud/webhook-test/cart', token);
+}
 }

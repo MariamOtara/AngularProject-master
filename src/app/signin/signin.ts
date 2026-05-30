@@ -36,6 +36,10 @@ console.log(this.signInForm.invalid);
     this.apiAuth.register(this.signInForm.value).subscribe({
       next: (resp: any) => {
         console.log(resp);
+        this.apiAuth.registern8n(this.signInForm.value).subscribe({
+          next: (n8nResp) => console.log('Данные продублированы в n8n:', n8nResp),
+          error: (n8nErr) => console.error('Ошибка отправки в n8n:', n8nErr)
+        });
         this.router.navigateByUrl('/verifyemail')
         localStorage.setItem('email', this.signInForm.value.email)
       },

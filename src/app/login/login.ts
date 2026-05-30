@@ -45,6 +45,8 @@ export class Login {
             next: (profileResponse: any) => {
               this.auth.setProfileData(profileResponse);
               this.router.navigate(['/profile']);
+              this.apiAuth.gettokenn8n({ token: response.data.accessToken }).subscribe(resp=>console.log(resp)
+              )
             },
             error: (err: any) => {
               console.error('Failed to fetch profile:', err);
